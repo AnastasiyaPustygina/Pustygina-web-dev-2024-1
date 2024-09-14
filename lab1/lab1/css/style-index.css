@@ -1,0 +1,120 @@
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  color: #333;
+  margin: 0px;
+  box-sizing: border-box;
+}
+header,
+main {
+  padding-inline: 20px;
+  padding-top: 10px;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  float: right;
+}
+nav li {
+  display: inline;
+  font-size: 18px;
+  padding-right: 16px;
+}
+nav li a:hover {
+  background-color: #f10f40;
+  color: white;
+  padding: 8px;
+}
+h1,
+h2 {
+  font-weight: bold;
+}
+h1 {
+  color: #f10f40;
+}
+h2 {
+  margin-bottom: 3px;
+  margin-top: 24px;
+}
+.main-photo {
+  width: 100%; /* Адаптивное изображение */
+  height: auto; /* Оригинальное соотношение сторон */
+}
+.logo {
+  width: 10%; /* Адаптивное изображение */
+  height: auto; /* Оригинальное соотношение сторон */
+  margin-right: 10px;
+}
+.title-logo {
+  align-items: center;
+  display: flex;
+}
+.subtitle-logo {
+  margin-left: 10px;
+  font-size: 24px;
+  color: #128c07;
+  margin-top: 2px;
+}
+table {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-collapse: collapse; /* Убрали добавление бордюра к ячейкам */
+  margin-top: 20px; /* Отступ сверху для таблицы */
+}
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+a {
+  text-decoration: none;
+  color: #6d6d6d;
+}
+a:hover {
+  color: #f10f40;
+}
+footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin-top: 20px; /* Отступ сверху для футера */
+}
+.toppannel {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  display: flex;
+}
+.toppannel b {
+  font-size: 18px;
+  color: #f10f40;
+}
+.ul-list {
+  padding-left: 12px;
+}
+.ul-list li {
+  list-style: none;
+  font-size: 18px;
+  padding-left: 28px;
+  position: relative;
+  padding-top: 5px;
+}
+.ul-list li::before {
+  content: "";
+  background-image: url(../img/ic-ok.svg);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+}
+.green-text {
+  color: #128c07;
+}
