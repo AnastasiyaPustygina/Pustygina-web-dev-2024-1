@@ -20,12 +20,10 @@ nav ul {
 nav li {
   display: inline;
   font-size: 18px;
-  padding-right: 16px;
+  padding-inline: 8px;
 }
-nav li a:hover {
-  background-color: #f10f40;
-  color: white;
-  padding: 8px;
+nav li :hover {
+  color: #f10f40;
 }
 h1,
 h2 {
