@@ -43,12 +43,121 @@ nav .active {
     cursor: pointer;
     transition: border 0.3s;
 }
-
-.dish h2 {
-    margin: 0 0 10px;
+/**//*.title-order {
+     text-align: center;
+     width: 100%;
+ }
+ .form-order {
+     display: flex;
+     justify-content: space-between;
+     margin-top: 20px;
+ }
+ fieldset {
+     border: none;
+     padding: 20px;
+     margin: 10px;
+     width: 45%;
+     flex: 1;
+ }
+.fs-data{
+    margin-left: auto;
+ }
+.fs-order{
+    margin-right: auto;
 }
+ legend {
+     font-weight: bold;
+ }
+ form {
+     display: flex;
+     flex-direction: column;
+ }
+.bt-form {
+     margin-top: 10px;
+ }*/
+.form-order {
+    display: flex;
+     justify-content: space-between;
+     margin-top: 20px;
+    padding: 20px;
+}
+
+.title-order {
+    text-align: center;
+    color: #333;
+    margin-bottom: 32px;
+}
+
+.form-container {
+    display: flex; /* Use flexbox for columns */
+    gap: 20px; /* Space between columns */
+}
+
+fieldset {
+    border: none;
+    padding: 15px;
+}
+form{
+    width: 45%;
+}
+legend {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="time"],
+select,
+textarea {
+    width: 100%; /* Full width for inputs */
+    padding: 10px; /* Inner padding */
+    margin-bottom: 15px; /* Space below inputs */
+    border: 1px solid #ccc; /* Light grey border */
+    border-radius: 4px; /* Rounded corners */
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    margin-right: 10px; /* Space right of checkbox/radio */
+}
+
+input[type="checkbox"] {
+    display: inline-block; /* Inline for checkbox */
+}
+
+.order{
+    margin-top: 60px;
+}
+.bt-form {
+    width: 40%;
+    background-color: #f1eee9;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px; 
+    margin-inline: 20px;
+}
+
+#bt-form-send:hover {
+    background-color: #128c07;
+    color: white;
+}
+#bt-form-reset:hover {
+    background-color: #f10f40;
+    color: white;
+}
+
 h1 {
     color:#333;
+    text-align: center;
 }
 
 .dish img {
