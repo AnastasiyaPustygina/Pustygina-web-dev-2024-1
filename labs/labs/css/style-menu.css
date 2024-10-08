@@ -9,6 +9,7 @@ nav ul {
     flex-wrap: wrap;
     padding: 0;
     list-style: none;
+    width: 100%; /* Обеспечивает распределение на всю ширину */
 }
 
 nav li {
@@ -29,13 +30,14 @@ nav .active {
     padding: 20px;
 }
 
-.category{
+.category {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
 }
 
 .dish {
+    border: 2px solid white;
     background-color: white;
     border-radius: 35px;
     padding: 30px 40px;
@@ -43,43 +45,32 @@ nav .active {
     cursor: pointer;
     transition: border 0.3s;
 }
-/**//*.title-order {
-     text-align: center;
-     width: 100%;
- }
- .form-order {
-     display: flex;
-     justify-content: space-between;
-     margin-top: 20px;
- }
- fieldset {
-     border: none;
-     padding: 20px;
-     margin: 10px;
-     width: 45%;
-     flex: 1;
- }
-.fs-data{
-    margin-left: auto;
- }
-.fs-order{
-    margin-right: auto;
+
+.dish:hover {
+    border: 2px solid #f10f40;
 }
- legend {
-     font-weight: bold;
- }
- form {
-     display: flex;
-     flex-direction: column;
- }
-.bt-form {
-     margin-top: 10px;
- }*/
-.form-order {
+
+.dish img {
+    width: 100%;
+    height: auto; /* Позволяет сохранить пропорции изображений */
+    border-radius: 35px;
+}
+
+.dish-content {
     display: flex;
-     justify-content: space-between;
-     margin-top: 20px;
-    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.add-button {
+    width: 100%;
+    background-color: #f1eee9;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 .title-order {
@@ -88,16 +79,23 @@ nav .active {
     margin-bottom: 32px;
 }
 
+.form-order {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 20px;
+}
+
 .form-container {
-    display: flex; /* Use flexbox for columns */
-    gap: 20px; /* Space between columns */
+    display: flex; /* Используем flexbox для колонок */
+    gap: 20px; /* Пробел между колонками */
 }
 
 fieldset {
     border: none;
     padding: 15px;
 }
-form{
+form {
     width: 45%;
 }
 legend {
@@ -116,34 +114,30 @@ input[type="tel"],
 input[type="time"],
 select,
 textarea {
-    width: 100%; /* Full width for inputs */
-    padding: 10px; /* Inner padding */
-    margin-bottom: 15px; /* Space below inputs */
-    border: 1px solid #ccc; /* Light grey border */
-    border-radius: 4px; /* Rounded corners */
+    width: 100%; /* Полная ширина для полей ввода */
+    padding: 10px; /* Внутренний отступ */
+    margin-bottom: 15px; /* Пробел ниже полей ввода */
+    border: 1px solid #ccc; /* Светлый серый край */
+    border-radius: 4px; /* Закругленные углы */
 }
 
 input[type="checkbox"],
 input[type="radio"] {
-    margin-right: 10px; /* Space right of checkbox/radio */
+    margin-right: 10px; /* Пробел справа от чекбокса/радио */
 }
 
-input[type="checkbox"] {
-    display: inline-block; /* Inline for checkbox */
-}
-
-.order{
+.order {
     margin-top: 60px;
 }
-.bt-form {
-    width: 40%;
-    background-color: #f1eee9;
-    padding: 10px 30px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px; 
-    margin-inline: 20px;
+
+.bt-form { width: 40%;
+ background-color: #f1eee9; 
+ padding: 10px 30px; 
+ border: none; 
+ border-radius: 
+ 10px; cursor: pointer;
+  font-size: 16px; 
+  margin: 10px; 
 }
 
 #bt-form-send:hover {
@@ -156,38 +150,13 @@ input[type="checkbox"] {
 }
 
 h1 {
-    color:#333;
+    color: #333;
     text-align: center;
 }
 
-.dish img {
-    width: 100%;
-    border-radius: 35px;
-    height: 200px;
-}
-
-.dish:hover {
-    border: 2px solid #f10f40;
-}
-
-.dish-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
-}
-.dish:hover .add-button{
+.dish:hover .add-button {
     background-color: #f10f40;
     color: white;
-}
-button.add-button {
-    width: 100%;
-    background-color: #f1eee9;
-    padding: 10px 30px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
 }
 
 .dish-title {
@@ -209,28 +178,62 @@ button.add-button {
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
     }
-
-    nav {
-        display: flex;
-        justify-content: space-between;
-    }
-}
-
-@media (max-width: 600px) {
-    h1 {
-        text-align: center;
-    }
-    .toppannel b{
+    .toppannel b {
         width: 0px;
         visibility: hidden;
     }
+    
     nav {
         flex-direction: column;
         align-items: center;
+        width: 100%;
     }
     
     nav a {
         font-size: calc(1rem + 2px);
+    }
+    nav ul {
+        justify-content: space-between; /* Обеспечивает равномерное распределение */
+    }
+}
+
+@media (max-width: 600px) {
+    .toppannel b {
+        width: 0px;
+        visibility: hidden;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-wrap: nowrap;
+        width: 100%;
+    }
+
+    nav ul {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        list-style: none;
+        width: 100%;
+        align-items: center;
+    }
+
+    nav li {
+        margin: 10px 0;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #333;
+        font-size: calc(1rem + 2px);
+        
+    }
+
+    nav a:hover,
+    nav .active {
+        color: #f10f40;
     }
 
     h2 {
@@ -240,4 +243,7 @@ button.add-button {
     .category {
         grid-template-columns: 1fr;
     }
+}
+footer {
+    margin-top: auto;
 }
