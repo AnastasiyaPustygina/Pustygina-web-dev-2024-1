@@ -244,8 +244,3 @@ h1 {
         grid-template-columns: 1fr;
     }
 }
-footer {
-    position: absolute;
-    width: 100%;
-    bottom: 0px;
-}
