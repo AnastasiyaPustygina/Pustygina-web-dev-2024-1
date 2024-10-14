@@ -16,9 +16,9 @@
         <b>В1 – ПЕРВЫЙ ВЫБОР</b>
         <nav>
           <ul>
-            <li><a href="https://anastasiyapustygina.github.io/Pustygina-web-dev-2024-1/index.html">О нас</a></li>
+            <li><a href="https://anastasiyapustygina.github.io/Pustygina-web-dev-2024-1/labs/lab2/main.html">О нас</a></li>
             <li><a href="#benefit">Выгодно</a></li>
-            <li><a href="https://anastasiyapustygina.github.io/Pustygina-web-dev-2024-1/menu.html">Ассортимент</a></li>
+            <li><a href="https://anastasiyapustygina.github.io/Pustygina-web-dev-2024-1/labs/lab2/menu.html">Ассортимент</a></li>
             <li><a href="#contacts">Контакты</a></li>
           </ul>
         </nav>
@@ -133,75 +133,6 @@
             
         </div>
     </section>
-    <div class = "order">
-         <h2 class="title-order">Оформить заказ</h2>
-         <div class = "form-order">
-    <form action="https://httpbin.org/post" method="POST">
-                <fieldset>
-                    <legend>Ваш заказ</legend>
-                    <label for="fruits-vegetables">Фрукты и овощи:</label>
-                    <select id="fruits-vegetables" name="fruits-vegetables" required>
-                        <option value="">Выберите нужное</option>
-                        <option value="бананы">Бананы</option>
-                        <option value="яблоки красные">Яблоки красные</option>
-                        <option value="груши">Груши</option>
-                    </select>
-                    <label for="milk-prod">Молочные продукты:</label>
-                    <select id="milk-prod" name="milk-prod" required>
-                        <option value="">Выберите молочный продукт</option>
-                        <option value="активиа клубника">Активиа клубника</option>
-                        <option value="активиа злаки">Активиа злаки</option>
-                        <option value="растишка">Растишка</option>
-                        <option value="молоко">Молоко</option>
-                    </select>
-                    <label for="backer">Выпечка:</label>
-                    <select id="backer" name="backer" required>
-                        <option value="">Выберите выпечку</option>
-                        <option value="мафин шоколадный">Мафин шоколадный</option>
-                        <option value="хачапури с сыром">Хачапури с сыром</option>
-                        <option value="язычокй">Язычок</option>
-                    </select>
-                    <label for="comments">Комментарий:</label>
-                    <textarea id="comments" name="comments"></textarea>
-                </fieldset>
-            </form>
-
-            <form action="https://httpbin.org/post" method="POST">
-                <fieldset>
-                    <legend>Ваши данные</legend>
-                    <label for="name">Имя:</label>
-                    <input type="text" id="name" name="name" required>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                    <label>
-                        <input type="checkbox" name="subscribe" class="cb-form" checked>
-                        Согласен на получение информации о скидках и акциях
-                    </label>
-                    <label for="phone">Телефон:</label>
-                    <input type="tel" id="phone" name="phone" required>
-                    <label for="address">Адрес:</label>
-                    <input type="text" id="address" name="address" required>
-                    <fieldset>
-                        <legend>Выбор времени доставки</legend>
-                        <label>
-                            <input type="radio" name="delivery_time" value="fast">
-                            Как можно скорее
-                        </label>
-                        <label>
-                            <input type="radio" name="delivery_time" value="to-time">
-                            К указанному времени
-                        </label>
-                    </fieldset>
-                    <label for="delivery_time_input">Укажите время доставки:</label>
-                    <input type="time" id="delivery_time_input" name="delivery_time_input" min="07:00" max="23:00" step="60">
-                    <p>Доступное время доставки: с 07:00 до 23:00</p>
-                </fieldset>
-
-            <button class = "bt-form", id="bt-form-reset", type="reset">Сбросить</button>
-            <button  class = "bt-form", id="bt-form-send", type="submit">Отправить</button>
-            </form>
-        </div>
-    </div>
 </main>
 <footer>
     <p>Связаться с нами можно по телефону: <a href="tel:+78002008474">8 (800) 200 84 74</a></p>
