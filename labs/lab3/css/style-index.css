@@ -4,6 +4,9 @@ body {
   color: #333;
   margin: 0px;
   box-sizing: border-box;
+   display: flex;
+   min-height: 100vh;
+   flex-direction: column;
 }
 header,
 main {
@@ -11,6 +14,7 @@ main {
   padding-top: 10px;
   margin: 0 auto;
   max-width: 1200px;
+  flex: 1;
 }
 .toppannel {
     display: flex;
