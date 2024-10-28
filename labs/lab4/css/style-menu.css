@@ -89,6 +89,9 @@ nav .active {
     justify-content: space-evenly;
     gap: 60px;
 }
+#hiddenAction{
+    display: none;
+}
 form{
     width: 100%;
 }
@@ -104,6 +107,11 @@ legend {
 label {
     display: block;
     margin: 10px 0 5px;
+    font-weight: bold;
+
+}
+#summaryPrice{
+    font-weight: bold;
 }
 
 input[type="text"],

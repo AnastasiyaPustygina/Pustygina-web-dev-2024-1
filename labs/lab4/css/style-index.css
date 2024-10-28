@@ -1,0 +1,180 @@
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  color: #333;
+  margin: 0px;
+  box-sizing: border-box;
+   display: flex;
+   min-height: 100vh;
+   flex-direction: column;
+}
+header,
+main {
+  padding-inline: 20px;
+  padding-top: 10px;
+  margin: 0 auto;
+  max-width: 1200px;
+  flex: 1;
+}
+.toppannel {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    margin: 0 15px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+}
+
+nav a:hover,
+nav .active {
+    color: #f10f40;
+}
+h1,
+h2 {
+  font-weight: bold;
+}
+h1 {
+  color: #f10f40;
+}
+h2 {
+  margin-bottom: 3px;
+  margin-top: 24px;
+}
+.main-photo {
+  width: 100%; /* Адаптивное изображение */
+  height: auto; /* Оригинальное соотношение сторон */
+}
+.logo {
+  width: 10%; /* Адаптивное изображение */
+  height: auto; /* Оригинальное соотношение сторон */
+  margin-right: 10px;
+}
+.title-logo {
+  align-items: center;
+  display: flex;
+}
+.subtitle-logo {
+  margin-left: 10px;
+  font-size: 24px;
+  color: #128c07;
+  margin-top: 2px;
+}
+table {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-collapse: collapse; /* Убрали добавление бордюра к ячейкам */
+  margin-top: 20px; /* Отступ сверху для таблицы */
+}
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+a {
+  text-decoration: none;
+  color: #6d6d6d;
+}
+a:hover {
+  color: #f10f40;
+}
+footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin-top: 20px; 
+}
+.toppannel {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  display: flex;
+}
+.toppannel b {
+  font-size: 18px;
+  color: #f10f40;
+}
+.ul-list {
+  padding-left: 12px;
+}
+.ul-list li {
+  list-style: none;
+  font-size: 18px;
+  padding-left: 28px;
+  position: relative;
+  padding-top: 5px;
+}
+.ul-list li::before {
+  content: "";
+  background-image: url(../img/ic-ok.svg);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+}
+.green-text {
+  color: #128c07;
+}
+@media (max-width: 800px) {
+    .about-image {
+        width: 500px;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 600px) {
+    h1 {
+        text-align: center;
+    }
+    
+    .toppannel b{
+        width: 0px;
+        visibility: hidden;
+    }
+    
+    nav {
+        flex-direction: column; 
+        align-items: center;
+    }
+    
+    nav a {
+        font-size: calc(1em + 4px);
+    }
+
+    .about-image {
+        width: 100%;
+    }
+    
+    table {
+        font-size: calc(1em - 2px);
+    }
+}
+
+
+@media (max-width: 400px) {
+    table {
+        font-size: calc(1em - 4px); /* Уменьшение шрифта таблицы на еще 2px */
+    }
+}
