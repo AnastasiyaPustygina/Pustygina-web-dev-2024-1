@@ -1,27 +1,69 @@
-const sortedDishes = dishes.sort((a, b) => a.name.localeCompare(b.name));
-
-function displayDishes() {
-    const categories = {
+const categories = {
         fruitsAndVegetables: 'Фрукты и овощи',
         drinks: 'Напитки',
         dairy: 'Молочные продукты',
         bakery: 'Выпечка',
         things: 'Вещи'
     };
+const kinds = {
+        fruit: 'Фрукты',
+        vegetable: "Овощи",
+        activia: 'Активиа',
+        forKids: "Для детей",
+        milk: 'Молоко',
+        hearty: 'Сытное',
+        sweet: 'Сладкое',
+        noFilling: 'Без начинки',
+        water: 'Вода',
+        juice: 'Сок',
+        soda: 'Газировка',
+        decoration: 'Украшения',
+        toy: 'Игрушки',
+        office: 'Канцеляриия'
+    };
 
-    for (const category in categories) {
+const sortedDishes = dishes.sort((a, b) => a.name.localeCompare(b.name));
+const categorizeDishes = (dishes) => {
+    return dishes.reduce((acc, dish) => {
+        if (!acc[dish.category]) {
+            acc[dish.category] = new Set();
+        }
+        acc[dish.category].add(dish.kind);
+        return acc;
+    }, {});
+};
+const categoriesWithKinds = categorizeDishes(dishes);
+function displayDishes() {
+    for (const category in categoriesWithKinds) {
+        categoriesWithKinds[category] = Array.from(categoriesWithKinds[category]);
+    }
+
+    for (const category in categoriesWithKinds) {
         const dishSection = document.createElement('section');
         dishSection.classList.add('dishes');
         const header = document.createElement('h2');
         header.textContent = categories[category];
         dishSection.appendChild(header);
+
+        const chipsContainer = document.createElement('div');
+        chipsContainer.classList.add('chips-container');
+        categoriesWithKinds[category].forEach(kind => {
+            const chip = document.createElement('button');
+            chip.textContent =kinds[kind];
+            chip.classList.add('chip');
+            chip.setAttribute('data-kind', kind);
+            chipsContainer.appendChild(chip);
+        });
+
+        dishSection.appendChild(chipsContainer);
+
         const categoryDiv = document.createElement('div');
         categoryDiv.classList.add('category');
 
         sortedDishes.forEach(dish => {
             if (dish.category === category) {
                 const dishDiv = document.createElement('div');
-                dishDiv.classList.add('dish');
+                dishDiv.classList.add('dish', dish.kind);
                 dishDiv.innerHTML = `
                     <img src="${dish.image}" alt="${dish.name}" />
                     <div class="dish-content">
@@ -38,15 +80,40 @@ function displayDishes() {
         document.querySelector('main').insertBefore(dishSection, document.querySelector('.order'));
     }
 }
-
+function getKeyByValue(object, value) {
+  return Object.keys(object).find(key => object[key] === value);
+}
+function setupChips() {
+    const chips = document.querySelectorAll('.chip');
+    chips.forEach(chip => {
+        chip.addEventListener('click', function () {
+            const selectedKind = this.getAttribute('data-kind');
+            const allDishCategories = document.querySelectorAll('.dishes');
+            allDishCategories.forEach(dc =>{
+                dc.querySelectorAll(".dish").forEach(dish => {
+                let valueCategory = dc.getElementsByTagName("h2")[0].innerHTML;
+                let category = getKeyByValue(categories, valueCategory);
+                console.log(dc.getElementsByTagName("h2"));
+               if (dish.classList.contains(selectedKind) || !categoriesWithKinds[category].includes(selectedKind)) {
+                    dish.style.display = 'block';
+                } else {
+                    dish.style.display = 'none';
+                }
+            });
+        });
+            })
+            
+    });
+}
 function setupAddButtons() {
     const addButtons = document.querySelectorAll('.add-button');
+    console.log(addButtons);
     addButtons.forEach(button => {
         button.addEventListener('click', function () {
             const keyword = this.getAttribute('data-keyword');
             const selectedDish = dishes.find(dish => dish.keyword === keyword);
             addToOrder(selectedDish);
-            this.parentElement.parentElement.classList.add('selected'); // выделение карточки
+            this.parentElement.parentElement.classList.add('selected');
         });
     });
 }
@@ -56,6 +123,7 @@ let totalPrice = 0;
 const totalDiv = document.getElementById('summaryPrice');
 
 function addToOrder(dish) {
+    console.log(dish)
     let elementDish;
     switch (dish.category) {
         case "fruitsAndVegetables":
@@ -63,6 +131,12 @@ function addToOrder(dish) {
             break;
         case "dairy":
             elementDish = document.getElementById('selectMP');
+            break;
+        case "drinks":
+            elementDish = document.getElementById('selectDrinks');
+            break;
+        case "things":
+            elementDish = document.getElementById('selectThings');   
             break;
         default:
             elementDish = document.getElementById('selectBakery');
@@ -95,10 +169,7 @@ function addToOrder(dish) {
         }
     totalDiv.textContent = `Итого: ${totalPrice}₽`;
 }
-document.addEventListener('DOMContentLoaded', function () {
-    displayDishes();
-    setupAddButtons();
-});
+
 document.getElementById("bt-form-send").addEventListener("click", (event) => {
     event.preventDefault();
     if (orderItems.length != 3) {
@@ -113,4 +184,8 @@ document.getElementById("bt-form-send").addEventListener("click", (event) => {
         form.submit();
     }
 });
-
+document.addEventListener('DOMContentLoaded', function () {
+    displayDishes();
+    setupChips();
+    setupAddButtons();
+});
