@@ -3,10 +3,8 @@ const sortedDishes = dishes.sort((a, b) => a.name.localeCompare(b.name));
 function displayDishes() {
     const categories = {
         fruitsAndVegetables: 'Фрукты и овощи',
-        drinks: 'Напитки',
         dairy: 'Молочные продукты',
-        bakery: 'Выпечка',
-        things: 'Вещи'
+        bakery: 'Выпечка'
     };
 
     for (const category in categories) {
@@ -84,33 +82,41 @@ function addToOrder(dish) {
             elementDish.textContent = `${dish.name} ${dish.price}₽`;
         }
     }
+
     const selectionSection = document.getElementById('hiddenAction');
     const noSelectionMessage = document.getElementById('nothingSelect');
-        if (totalPrice != 0){
-            selectionSection.style.display='block'
-            noSelectionMessage.style.display='none'
-        } else {
-            noSelectionMessage.style.display='block'
-            selectionSection.style.display='none'
-        }
+    if (totalPrice !== 0) {
+        selectionSection.style.display = 'block';
+        noSelectionMessage.style.display = 'none';
+    } else {
+        noSelectionMessage.style.display = 'block';
+        selectionSection.style.display = 'none';
+    }
+    
     totalDiv.textContent = `Итого: ${totalPrice}₽`;
 }
+
+document.getElementById("bt-form-send").addEventListener("click", (event) => {
+    event.preventDefault();
+    if (orderItems.length !== 3) {
+        alert("Пожалуйста, выберите все блюда перед отправкой.");
+    } else {
+        const form = document.querySelector("form");
+        const existingHiddenInputs = form.querySelectorAll('input[type="hidden"][name="keywords[]"]');
+        existingHiddenInputs.forEach(input => input.remove());
+
+        orderItems.forEach(dish => {
+            const hiddenInput = document.createElement("input");
+            hiddenInput.type = "hidden";
+            hiddenInput.name = "dishes[]";
+            hiddenInput.value = dish.keyword;
+            form.appendChild(hiddenInput);
+        });
+
+        form.submit();
+    }
+});
 document.addEventListener('DOMContentLoaded', function () {
     displayDishes();
     setupAddButtons();
 });
-document.getElementById("bt-form-send").addEventListener("click", (event) => {
-    event.preventDefault();
-    if (orderItems.length != 3) {
-        alert("Пожалуйста, выберите все блюда перед отправкой.");
-    } else {
-        const form = document.querySelector("form");
-        const hiddenInput = document.createElement("input");
-        hiddenInput.type = "hidden";
-        hiddenInput.name = "keywords";
-        hiddenInput.value = orderItems.map(it => it.keyword).join(","); 
-        form.appendChild(hiddenInput);
-        form.submit();
-    }
-});
-
