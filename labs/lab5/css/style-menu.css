@@ -52,7 +52,8 @@ nav .active {
 
 .dish img {
     width: 100%;
-    height: auto; /* Позволяет сохранить пропорции изображений */
+    height: 200px;
+    object-fit: cover;
     border-radius: 35px;
 }
 
