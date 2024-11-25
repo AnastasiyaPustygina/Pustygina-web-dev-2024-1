@@ -73,7 +73,7 @@ const dishes = [
     },
     {
         keyword: "activia-natural",
-        name: "Активиа черника",
+        name: "Активиа натуральный",
         price: 150,
         category: "dairy",
         count: "1кг",
