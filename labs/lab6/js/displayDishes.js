@@ -223,7 +223,6 @@ document.getElementById("bt-form-send").addEventListener("click", (event) => {
             Object.keys(combo).filter(c => c !== "drinks" && !orderCategories.includes(c))
         );
 
-        // Проверяем, какие категории отсутствуют
         const needsCategories = new Set();
 
         missingCombos.forEach(combo => {
@@ -265,60 +264,54 @@ document.getElementById("modal-ok").addEventListener("click", () => {
     modal.classList.add("hidden");
 });
 function sendForm(){
-    event.preventDefault(); // Останавливаем стандартную отправку формы
+    event.preventDefault();
 
     const form = document.querySelector("form");
 
-    // Проверяем валидность формы
     if (!form.checkValidity()) {
-        highlightInvalidFields(form); // Подсвечиваем незаполненные поля
+        highlightInvalidFields(form);
         showModal("Пожалуйста, заполните все обязательные поля.");
         return;
     }
 
-    // Добавляем скрытое поле с ключевыми словами
     const hiddenInput = document.createElement("input");
     hiddenInput.type = "hidden";
     hiddenInput.name = "keywords";
     hiddenInput.value = orderItems.map(it => it.keyword).join(",");
     form.appendChild(hiddenInput);
 
-    // Отправляем форму
     form.submit();
 }
 function highlightInvalidFields(form) {
     // Находим все поля с атрибутом required
     const fields = form.querySelectorAll("[required]");
 
-    // Для каждого поля проверяем, заполнено ли оно
     fields.forEach(field => {
         if (!field.checkValidity()) {
-            field.classList.add("error");  // Подсвечиваем незаполненные поля
+            field.classList.add("error");
         } else {
-            field.classList.remove("error");  // Убираем подсветку с валидных полей
+            field.classList.remove("error");
         }
     });
 }
 
 function sendForm() {
-    event.preventDefault(); // Останавливаем стандартную отправку формы
+    event.preventDefault();
 
     const form = document.querySelector("form");
 
-    // Проверяем валидность формы
     if (!form.checkValidity()) {
-        highlightInvalidFields(form); // Подсвечиваем незаполненные поля
+        highlightInvalidFields(form);
         showModal("Пожалуйста, заполните все обязательные поля.");
         return;
     }
 
-    // Добавляем скрытое поле с ключевыми словами
     const hiddenInput = document.createElement("input");
     hiddenInput.type = "hidden";
     hiddenInput.name = "keywords";
     hiddenInput.value = orderItems.map(it => it.keyword).join(",");
     form.appendChild(hiddenInput);
 
-    // Отправляем форму
+
     form.submit();
 }
