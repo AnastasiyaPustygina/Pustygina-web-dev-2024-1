@@ -45,8 +45,13 @@ function displayDishes() {
         header.textContent = categories[category];
         dishSection.appendChild(header);
 
+        const chip = document.createElement('button');
+            chip.textContent = 'Все';
+            chip.classList.add('chip');
+            chip.classList.add('chip-active');
         const chipsContainer = document.createElement('div');
         chipsContainer.classList.add('chips-container');
+        chipsContainer.appendChild(chip);
         categoriesWithKinds[category].forEach(kind => {
             const chip = document.createElement('button');
             chip.textContent =kinds[kind];
@@ -84,40 +89,69 @@ function getKeyByValue(object, value) {
   return Object.keys(object).find(key => object[key] === value);
 }
 function setupChips() {
-    const chips = document.querySelectorAll('.chip');
-    chips.forEach(chip => {
-        chip.addEventListener('click', function () {
-            const selectedKind = this.getAttribute('data-kind');
-            const allDishCategories = document.querySelectorAll('.dishes');
-            allDishCategories.forEach(dc =>{
-                dc.querySelectorAll(".dish").forEach(dish => {
-                let valueCategory = dc.getElementsByTagName("h2")[0].innerHTML;
-                let category = getKeyByValue(categories, valueCategory);
-                console.log(dc.getElementsByTagName("h2"));
-               if (dish.classList.contains(selectedKind) || !categoriesWithKinds[category].includes(selectedKind)) {
-                    dish.style.display = 'block';
-                } else {
-                    dish.style.display = 'none';
-                }
+    const chipsContainers = document.querySelectorAll('.chips-container');
+    chipsContainers.forEach(container => {
+        const chips = container.querySelectorAll('.chip');
+        chips.forEach(chip => {
+            chip.addEventListener('click', function () {
+                chips.forEach(chip => {
+                    chip.className = 'chip';
+                });
+
+                chip.className = 'chip-active';
+
+                const selectedKind = chip.getAttribute('data-kind');
+                const categorySection = container.closest('.dishes');
+                const categoryDishes = categorySection.querySelectorAll('.dish');
+
+                categoryDishes.forEach(dish => {
+                    if (
+                        selectedKind === 'Все' ||
+                        dish.classList.contains(selectedKind)
+                    ) {
+                        dish.style.display = 'block';
+                    } else {
+                        dish.style.display = 'none';
+                    }
+                });
             });
         });
-            })
-            
     });
 }
 function setupAddButtons() {
     const addButtons = document.querySelectorAll('.add-button');
-    console.log(addButtons);
     addButtons.forEach(button => {
         button.addEventListener('click', function () {
             const keyword = this.getAttribute('data-keyword');
             const selectedDish = dishes.find(dish => dish.keyword === keyword);
             addToOrder(selectedDish);
-            this.parentElement.parentElement.classList.add('selected');
+            const category = selectedDish.category;
+            let categorySection = null;
+            const sections = document.querySelectorAll('.dishes');
+            sections.forEach(section => {
+                const header = section.querySelector('h2');
+                if (header && header.textContent === categories[category]) {
+                    categorySection = section;
+                }
+            });
+
+            if (categorySection) {
+                const categoryDishes = categorySection.querySelectorAll('.dish');
+                categoryDishes.forEach(dish => {
+                    dish.classList.remove('dish-active');
+                    const button = dish.querySelector('.add-button');
+                    button.style.backgroundColor = '';
+                    button.textContent = 'Добавить';
+                });
+
+                const currentDish = this.parentElement.parentElement;
+                currentDish.classList.add('dish-active');
+                this.style.backgroundColor = '#f10f40';
+                this.textContent = 'Добавлено';
+            }
         });
     });
 }
-
 let orderItems = [];
 let totalPrice = 0;
 const totalDiv = document.getElementById('summaryPrice');
@@ -142,21 +176,20 @@ function addToOrder(dish) {
             elementDish = document.getElementById('selectBakery');
     }
 
-    if (elementDish.textContent === "Блюдо не выбрано") {
+ if (elementDish.textContent === "Блюдо не выбрано") {
         elementDish.textContent = `${dish.name} ${dish.price}₽`;
         orderItems.push(dish);
         totalPrice += dish.price;
     } else {
-        if (orderItems.some(item => item.keyword === dish.keyword)) {
-            elementDish.textContent = "Блюдо не выбрано";
-            totalPrice -= dish.price;
-            orderItems = orderItems.filter(item => item.keyword !== dish.keyword);
-        } else {
-            orderItems = orderItems.filter(item => item.category !== dish.category);
-            orderItems.push(dish);
-            totalPrice = orderItems.reduce((total, item) => total + item.price, 0);
-            elementDish.textContent = `${dish.name} ${dish.price}₽`;
+        const currentDish = orderItems.find(item => item.category === dish.category);
+        if (currentDish) {
+            totalPrice -= currentDish.price;
+            orderItems = orderItems.filter(item => item.keyword !== currentDish.keyword);
         }
+        
+        orderItems.push(dish);
+        totalPrice += dish.price;
+        elementDish.textContent = `${dish.name} ${dish.price}₽`;
     }
     const selectionSection = document.getElementById('hiddenAction');
     const noSelectionMessage = document.getElementById('nothingSelect');

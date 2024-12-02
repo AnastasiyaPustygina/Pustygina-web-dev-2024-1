@@ -108,7 +108,7 @@ document.getElementById("bt-form-send").addEventListener("click", (event) => {
         orderItems.forEach(dish => {
             const hiddenInput = document.createElement("input");
             hiddenInput.type = "hidden";
-            hiddenInput.name = "dishes[]";
+            hiddenInput.name = dish.category;
             hiddenInput.value = dish.keyword;
             form.appendChild(hiddenInput);
         });
