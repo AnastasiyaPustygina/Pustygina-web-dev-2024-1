@@ -93,7 +93,7 @@ function setupChips() {
     chipsContainers.forEach(container => {
         const chips = container.querySelectorAll('.chip');
         chips.forEach(chip => {
-            chip.addEventListener('click', function () {
+            chip.addEventListener('click', function () { 
                 chips.forEach(chip => {
                     chip.className = 'chip';
                 });

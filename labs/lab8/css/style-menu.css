@@ -3,7 +3,6 @@
     justify-content: space-between;
     padding: 10px 20px;
 }
-
 nav ul {
     display: flex;
     flex-wrap: wrap;
@@ -25,7 +24,92 @@ nav a:hover,
 nav .active {
     color: #f10f40;
 }
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.bt-to-basket{
+    width: 20%;
+     background-color: #f1eee9; 
+    padding: 10px 30px; 
+    border: none; 
+    border-radius: 10px; cursor: pointer;
+    font-size: 16px; 
+    margin-left: auto;
+    display: block;
 
+}
+.bt-to-basket:hover{
+    background-color: #128c07;
+    color: white;
+
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 300px;
+}
+
+.modal-button {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.modal-button:hover {
+    background-color: #e6e6e6;
+}
+
+.combo-options{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+.combo-option{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+}
+.combo-option img{
+    display: block;
+    width: 30px;
+    height: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+}
+.combo-option img:hover{
+    transform: scale(1.3);
+}
+.combo-option-dish{
+}
+.combo-option p{
+    font-size: 14px;
+    padding: 10px;
+}
 .dishes {
     padding: 20px;
 }
@@ -45,6 +129,7 @@ nav .active {
     cursor: pointer;
     transition: border 0.3s;
 }
+
 .dish.active {
     color: white;
     border: 2px solid #f10f40;
@@ -55,6 +140,7 @@ nav .active {
     cursor: pointer;
     transition: border 0.3s;
 }
+
 .dish:hover {
     border: 2px solid #f10f40;
 }
@@ -65,7 +151,34 @@ nav .active {
     object-fit: cover;
     border-radius: 35px;
 }
+.combo-option-thing *{
+    display: block;
+}
+.combo-option-thing img{
+    width: 30px;
+    height: 30px;
+    margin-inline: auto;
+    cursor: pointer;
+}
+.combo-option-thing img:hover{
+    transform: scale(1.3);
+}
+.combo-option-thing p{
+    font-size: 14px;
+    margin-inline: auto;
+    text-align: center;
 
+}
+.text-addition{
+    color: grey;
+    font-size: 12px;
+    margin-inline: auto;
+    text-align: center;
+}
+.error {
+    border: 2px solid red; /* Красная рамка */
+    background-color: #ffe6e6; /* Светло-красный фон */
+}
 .dish-content {
     display: flex;
     flex-direction: column;
@@ -196,15 +309,6 @@ h1 {
 
 .chip {
     background-color: #d5d5d5;
-    border: none;
-    color: #d5d5d5;
-    padding: 8px 16px;
-    margin: 4px;
-    border-radius: 20px;
-    cursor: pointer;
-}
-.chip-active {
-    background-color: #f10f40;
     border: none;
     color: #434343;
     padding: 8px 16px;

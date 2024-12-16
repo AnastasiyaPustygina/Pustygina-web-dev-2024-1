@@ -35,19 +35,18 @@ let categorizeDishes = (dishes) => {
 };
 let categoriesWithKinds = categorizeDishes(dishes);
 function displayDishes() {
-    categorizeDishes = (dishes) => {
-    return dishes.reduce((acc, dish) => {
-        if (!acc[dish.category]) {
-            acc[dish.category] = new Set();
-        }
-        acc[dish.category].add(dish.kind);
-        return acc;
-    }, {});
-};
-categoriesWithKinds = categorizeDishes(dishes);
+    if (!dishes || dishes.length === 0) {
+        console.error('Список блюд пуст');
+        return;
+    }
+
+    categoriesWithKinds = categorizeDishes(dishes);
+
     for (const category in categoriesWithKinds) {
         categoriesWithKinds[category] = Array.from(categoriesWithKinds[category]);
     }
+
+    const main = document.querySelector('main');
 
     for (const category in categoriesWithKinds) {
         const dishSection = document.createElement('section');
@@ -60,7 +59,7 @@ categoriesWithKinds = categorizeDishes(dishes);
         chipsContainer.classList.add('chips-container');
         categoriesWithKinds[category].forEach(kind => {
             const chip = document.createElement('button');
-            chip.textContent =kinds[kind];
+            chip.textContent = kinds[kind];
             chip.classList.add('chip');
             chip.setAttribute('data-kind', kind);
             chipsContainer.appendChild(chip);
@@ -70,7 +69,6 @@ categoriesWithKinds = categorizeDishes(dishes);
 
         const categoryDiv = document.createElement('div');
         categoryDiv.classList.add('category');
-
         sortedDishes.forEach(dish => {
             if (dish.category === category) {
                 const dishDiv = document.createElement('div');
@@ -89,8 +87,14 @@ categoriesWithKinds = categorizeDishes(dishes);
 
         dishSection.appendChild(categoryDiv);
         document.querySelector('main').insertBefore(dishSection, document.querySelector('.order'));
+    
     }
-    }
+        const btSend = document.createElement('bt-form-send');
+        btSend.innerHTML = '<button class="bt-to-basket" id="bt-to-basket" type="submit">Оформить</button> ';
+        document.querySelector('main').appendChild(btSend);
+
+
+}
 function getKeyByValue(object, value) {
   return Object.keys(object).find(key => object[key] === value);
 }
@@ -157,11 +161,13 @@ function addToOrder(dish) {
         elementDish.textContent = `${dish.name} ${dish.price}₽`;
         orderItems.push(dish);
         totalPrice += dish.price;
+        saveToLocalStorage(dish.keyword);
     } else {
         if (orderItems.some(item => item.keyword === dish.keyword)) {
             elementDish.textContent = "Блюдо не выбрано";
             totalPrice -= dish.price;
             orderItems = orderItems.filter(item => item.keyword !== dish.keyword);
+            removeFromLocalStorage(dish.keyword);
         } else {
             orderItems = orderItems.filter(item => item.category !== dish.category);
             orderItems.push(dish);
@@ -284,15 +290,13 @@ function sendForm(){
         return;
     }
 
-        orderItems.forEach(dish => {
-            const hiddenInput = document.createElement("input");
-            hiddenInput.type = "hidden";
-            hiddenInput.name = dish.category;
-            hiddenInput.value = dish.keyword;
-            form.appendChild(hiddenInput);
-        });
+    const hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.name = "keywords";
+    hiddenInput.value = orderItems.map(it => it.keyword).join(",");
+    form.appendChild(hiddenInput);
 
-        form.submit();
+    form.submit();
 }
 function highlightInvalidFields(form) {
 
@@ -330,27 +334,54 @@ function sendForm() {
 const apiUrl = 'http://192.168.1.34:8080/dishes/';
 
 function loadDishes() {
-
-fetch(apiUrl, {
-    method: "GET",
-    headers: {
-        "Content-Type": "application/json"
-    }
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-    return response.json();
-})
-.then(dishes => {
-    this.dishes = dishes;
-    console.log(dishes)
-    sortedDishes = dishes.sort((a, b) => a.name.localeCompare(b.name));
-    displayDishes();
-})
-.catch(error => {
-    console.error('Ошибка загрузки данных:', error);
-});
+    fetch(apiUrl, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+    })
+    .then(dishes => {
+        this.dishes = dishes;
+        sortedDishes = dishes.sort((a, b) => a.name.localeCompare(b.name));
+        displayDishes();
+        setupChips();
+        setupAddButtons();
+    })
+    .catch(error => console.error('Ошибка загрузки данных:', error));
 }
 loadDishes();
+function saveToLocalStorage(keyword) {
+    let selectedDishes = JSON.parse(localStorage.getItem('selectedDishes')) || [];
+    if (!selectedDishes.includes(keyword)) {
+        selectedDishes.push(keyword);
+        localStorage.setItem('selectedDishes', JSON.stringify(selectedDishes));
+    }
+    loadBasket();
+}
+
+function removeFromLocalStorage(keyword) {
+    let selectedDishes = JSON.parse(localStorage.getItem('selectedDishes')) || [];
+    selectedDishes = selectedDishes.filter(dishkeyword => dishkeyword !== keyword);
+    localStorage.setItem('selectedDishes', JSON.stringify(selectedDishes));
+}
+let basketDishes = JSON.parse(localStorage.getItem('selectedDishes')) || [];
+
+async function loadBasket() {
+    if (basketDishes.length === 0) {
+        showEmptyBasketMessage();
+        return;
+    }
+
+    try {
+        basketDishes = JSON.parse(localStorage.getItem('selectedDishes')) || [];
+        const dishes = await Promise.all(
+            basketDishes.map(keyword => fetch(`${apiUrl}${keyword}`).then(res => res.json()))
+        );
+        renderBasket(dishes);
+    } catch (error) {
+        console.error('Ошибка загрузки корзины:', error);
+    }
+    console.log(basketDishes)
+}
