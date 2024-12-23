@@ -1,0 +1,37 @@
+#basket-container{
+	display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+.basket-item{
+	border: 2px solid white;
+    background-color: white;
+    border-radius: 35px;
+    padding: 30px 40px;
+    filter: drop-shadow(17px 19px 24px rgba(0, 0, 0, 0.13));
+    cursor: pointer;
+    transition: border 0.3s;
+}
+.basket-item:hover{
+	color: white;
+    border: 2px solid #f10f40;
+    background-color: white;
+    border-radius: 35px;
+    padding: 30px 40px;
+    filter: drop-shadow(17px 19px 24px rgba(0, 0, 0, 0.13));
+    cursor: pointer;
+    transition: border 0.3s;
+}
+.remove-from-basket{
+	width: 100%;
+    background-color: #f1eee9;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.remove-from-basket:hover{
+    background-color: #f10f40;
+    color: white;
+}

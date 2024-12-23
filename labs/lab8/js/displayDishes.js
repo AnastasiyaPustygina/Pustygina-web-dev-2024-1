@@ -91,6 +91,9 @@ function displayDishes() {
     }
         const btSend = document.createElement('bt-form-send');
         btSend.innerHTML = '<button class="bt-to-basket" id="bt-to-basket" type="submit">Оформить</button> ';
+        btSend.onclick = function () {
+        location.href = "file:///C:/Users/Anastasia/Documents/GitHub/Pustygina-web-dev-2024-1/labs/lab8/basket.html";
+    };
         document.querySelector('main').appendChild(btSend);
 
 
@@ -157,11 +160,11 @@ function addToOrder(dish) {
             elementDish = document.getElementById('selectBakery');
     }
 
+    saveToLocalStorage(dish.keyword);
     if (elementDish.textContent === "Блюдо не выбрано") {
         elementDish.textContent = `${dish.name} ${dish.price}₽`;
         orderItems.push(dish);
         totalPrice += dish.price;
-        saveToLocalStorage(dish.keyword);
     } else {
         if (orderItems.some(item => item.keyword === dish.keyword)) {
             elementDish.textContent = "Блюдо не выбрано";
@@ -331,10 +334,10 @@ function sendForm() {
 
     form.submit();
 }
-const apiUrl = 'http://192.168.1.34:8080/dishes/';
+const apiUrl = 'http://192.168.1.36:8080';
 
 function loadDishes() {
-    fetch(apiUrl, {
+    fetch(apiUrl + "/dishes/", {
         method: "GET",
         headers: { "Content-Type": "application/json" }
     })
@@ -353,35 +356,42 @@ function loadDishes() {
 }
 loadDishes();
 function saveToLocalStorage(keyword) {
+    const selectedDish = dishes.find(dish => dish.keyword === keyword);
+
+    if (!selectedDish) return;
+
+    // Получаем текущую корзину
     let selectedDishes = JSON.parse(localStorage.getItem('selectedDishes')) || [];
-    if (!selectedDishes.includes(keyword)) {
-        selectedDishes.push(keyword);
-        localStorage.setItem('selectedDishes', JSON.stringify(selectedDishes));
-    }
+    console.log(selectedDishes)
+    console.log(selectedDish)
+    // Удаляем блюдо из той же категории, если оно уже существует
+    selectedDishes = selectedDishes.filter(dishSel => dishSel.category !== selectedDish.category);
+    console.log(selectedDishes)
+    // Добавляем новое блюдо
+    selectedDishes.push(selectedDish);
+    console.log(selectedDishes)
+    // Сохраняем обновленную корзину
+    localStorage.setItem('selectedDishes', JSON.stringify(selectedDishes));
     loadBasket();
 }
 
 function removeFromLocalStorage(keyword) {
     let selectedDishes = JSON.parse(localStorage.getItem('selectedDishes')) || [];
-    selectedDishes = selectedDishes.filter(dishkeyword => dishkeyword !== keyword);
+    selectedDishes = selectedDishes.filter(dish => dish.keyword !== keyword);
     localStorage.setItem('selectedDishes', JSON.stringify(selectedDishes));
 }
-let basketDishes = JSON.parse(localStorage.getItem('selectedDishes')) || [];
 
 async function loadBasket() {
+    let basketDishes = JSON.parse(localStorage.getItem('selectedDishes')) || [];
+
     if (basketDishes.length === 0) {
         showEmptyBasketMessage();
         return;
     }
 
     try {
-        basketDishes = JSON.parse(localStorage.getItem('selectedDishes')) || [];
-        const dishes = await Promise.all(
-            basketDishes.map(keyword => fetch(`${apiUrl}${keyword}`).then(res => res.json()))
-        );
-        renderBasket(dishes);
+        console.log("Корзина:", basketDishes);
     } catch (error) {
         console.error('Ошибка загрузки корзины:', error);
     }
-    console.log(basketDishes)
 }

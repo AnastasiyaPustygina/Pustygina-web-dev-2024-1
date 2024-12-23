@@ -327,11 +327,11 @@ function sendForm() {
 
     form.submit();
 }
-const apiUrl = 'http://192.168.1.34:8080/dishes/';
+const apiUrl = 'http://192.168.1.36:8080';
 
 function loadDishes() {
 
-fetch(apiUrl, {
+fetch(apiUrl + "/dishes/", {
     method: "GET",
     headers: {
         "Content-Type": "application/json"
