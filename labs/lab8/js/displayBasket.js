@@ -1,6 +1,5 @@
 const apiUrl = 'http://192.168.1.36:8080/dish/';
 let basketDishes  = JSON.parse(localStorage.getItem('selectedDishes')) || [];
-let orderItems = [];
 let categories = {
         fruitsAndVegetables: 'Фрукты и овощи',
         drinks: 'Напитки',
@@ -8,36 +7,39 @@ let categories = {
         bakery: 'Выпечка',
         things: 'Вещи'
     };
+
+let totalPrice = 0;
+let totalDiv = document.getElementById('summaryPrice');
 async function loadBasket() {
+    totalDiv = document.getElementById('summaryPrice');
     if (basketDishes.length === 0) {
         showEmptyBasketMessage();
         return;
     }
-    console.log(basketDishes)
-    try {
-        console.log(dishes)
-        const dishes = await Promise.all(
-            basketDishes.map(keyword => fetch(`${apiUrl}${keyword}`).then(res => res.json()))
-        );
-        orderItems = dishes;
-        renderBasket(dishes);
-    } catch (error) {
-        const dishes = await Promise.all(
-            basketDishes.map(dish => fetch(`${apiUrl}${dish.keyword}`).then(res => res.json()))
-        );
-        orderItems = dishes;
-        renderBasket(dishes);
+        renderBasket(basketDishes);
+        try{
+        clearBasket();
+    }catch(error){
+        console.log(error)
     }
-    basketDishes.forEach(d => addToOrder(d))
+
+
+        totalPrice = 0;
+        totalDiv.textContent = `Итого: 0₽`;
+        basketDishes.forEach(d => {
+            console.log(d)
+            addToOrder(d)
+    })
 }
+
 
 function renderBasket(dishes) {
     const basketContainer = document.getElementById('basket-container');
-    const summary = document.getElementById('basket-summary');
+    const summary = document.getElementById('summaryPrice');
     basketContainer.innerHTML = '';
     let totalPrice = 0;
 
-    dishes.forEach(dish => {
+    basketDishes.forEach(dish => {
         const dishDiv = document.createElement('div');
         dishDiv.className = 'dish';
         dishDiv.innerHTML = `
@@ -49,28 +51,30 @@ function renderBasket(dishes) {
         basketContainer.appendChild(dishDiv);
         const removeButton = dishDiv.querySelector('.remove-from-basket');
         removeButton.addEventListener('click', () => removeFromBasket(dish.keyword));
-
-        totalPrice += dish.price;
     });
-
-    const totalPriceEl = document.getElementById('basket-total-price');
-    totalPriceEl.textContent = "Цена: " + totalPrice;
+    totalPrice.textContent = "Цена: " + totalPrice;
+}
+function showEmptyBasketMessage() {
+    
+    const basketContainer = document.getElementById('basket-container');
+    basketContainer.innerHTML = '';
+    document.getElementById('nothingSelect').style.display='block';
+    document.getElementById("hiddenAction").style.display = 'none'
 }
 
 function removeFromBasket(keyword) {
-    basketDishes = basketDishes.filter(item => item.keyword !== keyword);
+    basketDishes = basketDishes.filter(item => item.keyword != keyword);
     localStorage.setItem('selectedDishes', JSON.stringify(basketDishes));
-    orderItems = orderItems.filter(dish => dish.keyword !== keyword);
-    loadBasket();
+    console.log(basketDishes)
+    if (basketDishes.length === 0) {
+        console.log('empty')
+        showEmptyBasketMessage();
+    } else {
+        loadBasket();
+    }
 }
 
-// Показ сообщения о пустой корзине
-function showEmptyBasketMessage() {
-    document.getElementById('nothingSelect').classList.remove('hidden');
-    document.getElementById('summaryPrice').classList.add('hidden');
-}
 
-// Отправка заказа
 async function submitOrder() {
     const orderDetails = {
         dishes: basketDishes,
@@ -101,13 +105,17 @@ async function submitOrder() {
     }
 }
 
-// Инициализация корзины
 document.addEventListener('DOMContentLoaded', () => {
     loadBasket();
 });
-let totalPrice = 0;
-const totalDiv = document.getElementById('summaryPrice');
 
+function clearBasket(){
+    document.getElementById('selectFV').textContent = "Блюдо не выбрано";
+    document.getElementById('selectMP').textContent = "Блюдо не выбрано";
+    document.getElementById('selectDrinks').textContent = "Блюдо не выбрано";
+    document.getElementById('selectThings').textContent = "Блюдо не выбрано";
+    document.getElementById('selectBakery').textContent = "Блюдо не выбрано";
+}
 
 function addToOrder(dish) {
     console.log(dish)
@@ -133,15 +141,8 @@ function addToOrder(dish) {
         elementDish.textContent = `${dish.name} ${dish.price}₽`;
         totalPrice += dish.price;
     } else {
-        if (basketDishes.some(item => item.keyword === dish.keyword)) {
+        if (!basketDishes.some(item => item.keyword === dish.keyword)) {
             elementDish.textContent = "Блюдо не выбрано";
-            totalPrice -= dish.price;
-            basketDishes = basketDishes.filter(item => item.keyword !== dish.keyword);
-        } else {
-            basketDishes = basketDishes.filter(item => item.category !== dish.category);
-            basketDishes.push(dish);
-            totalPrice = basketDishes.reduce((total, item) => total + item.price, 0);
-            elementDish.textContent = `${dish.name} ${dish.price}₽`;
         }
     }
     const selectionSection = document.getElementById('hiddenAction');
@@ -184,7 +185,7 @@ document.getElementById("bt-form-send").addEventListener("click", (event) => {
         {drinks: "Напитки", bakery: "Выпечка", things: 'Вещи'}
     ];
 
-    const orderCategories = orderItems.map(i => i.category);
+    const orderCategories = basketDishes.map(i => i.category);
     let sameCombos = combos.filter(combo => {
     return orderCategories.every(c => {
         console.log("Проверяем категорию:", c, "в", Object.keys(combo));
@@ -266,7 +267,7 @@ function sendForm() {
         return;
     }
     const hiddenInput = document.createElement("input");
-    orderItems.forEach(dish => {
+    basketDishes.forEach(dish => {
             const hiddenInput = document.createElement("input");
             hiddenInput.type = "hidden";
             hiddenInput.name = dish.category;

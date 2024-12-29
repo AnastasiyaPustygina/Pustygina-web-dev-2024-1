@@ -1,0 +1,146 @@
+body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .hero {
+            width: 100%;
+            background-image: url(../img/background-d.png);
+/*            background-size: 100% 400px;*/
+            background-repeat: no-repeat;
+            color: white;
+            padding: 90px 20px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-left: 40px;
+            margin-bottom: 20px;
+
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+            margin-left: 40px;
+        }
+
+        .hero a {
+            background-color: #ff003c;
+            color: white;
+            font-size: 1.2rem;
+            padding: 15px 30px;
+            border-radius: 50px;
+            border-width: 0px;
+            margin-left: 40px;
+        }
+        .hero a:hover {
+            background-color: #CF0028;
+        }
+
+        .features {
+            margin-top: 28px;
+            background-color: white;
+            padding: 50px 20px;
+        }
+
+        .features h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .features h5 {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .ic_ok{
+            margin-left: auto;
+            margin-right: auto;
+            width: 2rem;
+            height: 2rem;
+            background-size: 2rem 2rem;
+            background-repeat: no-repeat;
+            background-image: url("../img/ic-ok.svg");
+        }
+        .cta {
+
+            margin-top: 28px;
+            background-image: url(../img/background-send.png);
+            background-repeat:no-repeat;
+            background-position: center center;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .cta a {
+            background-color: #ff003c;
+            color: white;
+            font-size: 1.2rem;
+            padding: 15px 30px;
+            margin-top: 20px;
+            border-radius: 50px;
+        }
+        .cta a:hover {
+            background-color: #CF0028;
+        }
+
+        .contact {
+            padding: 50px 20px;
+            background-color: #f9f9f9;
+        }
+
+        .contact h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .contact .form-control {
+            border-radius: 5px;
+        }
+
+        .contact button {
+            background-color: #ff003c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+        }
+        .contact button:hover, button:focus button:active{
+            background-color: #CF0028;
+        }
+        button:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+section {
+  padding: 60px 20px;
+}
+.image-block{
+    width: 100%;
+    height: 400px;
+    background-image: url('../img/background.png');
+    background-repeat:no-repeat;
+    background-position: center center;
+}
+@media (max-width: 1400px) {
+    .image-block{
+    display: none;
+}
+}
